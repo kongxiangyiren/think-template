@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json.schemastore.org/eslintrc",
+  "parser": "@babel/eslint-parser",
+  "extends": ["prettier","think" ],
+  "plugins": ["prettier"]
+}
