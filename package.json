@@ -28,7 +28,7 @@
     "@babel/core": "^7.21.4",
     "@babel/eslint-parser": "^7.21.3",
     "ava": "^5.2.0",
-    "babel-preset-think-node": "^2.0.0",
+    "babel-preset-think-node": "git+https://github.com/kongxiangyiren/babel-preset-think-node.git",
     "eslint": "^8.38.0",
     "eslint-config-think": "git+https://github.com/kongxiangyiren/eslint-config-think.git",
     "node-notifier": "^10.0.1",
