@@ -30,12 +30,9 @@
     "ava": "^5.2.0",
     "babel-preset-think-node": "^2.0.0",
     "eslint": "^8.38.0",
-    "eslint-config-prettier": "^8.8.0",
     "eslint-config-think": "git+https://github.com/kongxiangyiren/eslint-config-think.git",
-    "eslint-plugin-prettier": "^4.2.1",
     "node-notifier": "^10.0.1",
     "nyc": "^15.1.0",
-    "prettier": "^2.8.7",
     "think-babel": "^2.0.1",
     "think-inspect": "0.0.2",
     "think-watcher": "^3.0.4"
