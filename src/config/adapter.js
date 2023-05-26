@@ -1,10 +1,11 @@
 const fileCache = require('think-cache-file');
 const nunjucks = require('think-view-nunjucks');
 const fileSession = require('think-session-file');
-const mysql = require('think-model-mysql');
+const pgsql = require('think-model-postgresql');
 const { Console, File, DateFile } = require('think-logger3');
 const path = require('path');
-const isDev = think.env === 'development';
+const isDev = think.env === 'development' || think.env === 'vercel';
+const isVercel = think.env === 'vercel';
 
 /**
  * cache adapter config
@@ -17,7 +18,9 @@ exports.cache = {
   },
   file: {
     handle: fileCache,
-    cachePath: path.join(think.ROOT_PATH, 'runtime/cache'), // absoulte path is necessarily required
+    cachePath: isVercel
+      ? '/tmp/cache'
+      : path.join(think.ROOT_PATH, 'runtime/cache'), // absoulte path is necessarily required
     pathDepth: 1,
     gcInterval: 24 * 60 * 60 * 1000 // gc interval
   }
@@ -28,23 +31,23 @@ exports.cache = {
  * @type {Object}
  */
 exports.model = {
-  type: 'mysql',
+  type: 'postgresql',
   common: {
     logConnect: isDev,
     logSql: isDev,
     logger: msg => think.logger.info(msg)
   },
-  mysql: {
-    handle: mysql,
-    database: '',
+  // vercel 创建 postgresql 数据库 https://vercel.com/dashboard/stores
+  postgresql: {
+    handle: pgsql,
     prefix: 'think_',
-    encoding: 'utf8',
-    host: '127.0.0.1',
-    port: '',
-    user: 'root',
-    password: 'root',
-    dateStrings: true,
-    acquireWaitTimeout: isDev ? 3000 : 0
+    user: 'default',
+    password: '',
+    database: 'verceldb',
+    host: '',
+    port: 5432,
+    connectionLimit: 1,
+    ssl: true // 开启ssl vercel必须
   }
 };
 
@@ -63,7 +66,9 @@ exports.session = {
   },
   file: {
     handle: fileSession,
-    sessionPath: path.join(think.ROOT_PATH, 'runtime/session')
+    sessionPath: isVercel
+      ? '/tmp/session'
+      : path.join(think.ROOT_PATH, 'runtime/session')
   }
 };
 

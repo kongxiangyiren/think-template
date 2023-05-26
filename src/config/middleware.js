@@ -1,6 +1,6 @@
 const path = require('path');
 const isDev = think.env === 'development';
-
+const isVercel = think.env === 'vercel';
 module.exports = [
   {
     handle: 'meta',
@@ -11,7 +11,7 @@ module.exports = [
   },
   {
     handle: 'resource',
-    enable: isDev,
+    enable: isDev || isVercel,
     options: {
       root: path.join(think.ROOT_PATH, 'www'),
       publicPath: /^\/(static|favicon\.ico)/
@@ -27,7 +27,7 @@ module.exports = [
   {
     handle: 'payload',
     options: {
-      uploadDir: path.join(think.RUNTIME_PATH, '_tmp'),
+      uploadDir: isVercel ? '/tmp/_tmp' : path.join(think.RUNTIME_PATH, '_tmp'),
       keepExtensions: true,
       limit: '5mb'
     }
